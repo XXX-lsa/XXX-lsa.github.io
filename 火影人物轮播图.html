@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./火影人物轮播图.css">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="item left" data-color="radial-gradient(#eeeeee,#d46c0b)" data-xx="yy"><img src="./img/鸣人.png" alt=""
+                width="100%"></div>
+        <div class="item middle" data-color="radial-gradient(#eeeeee,#293242)"><img src="./img/佐助.png" alt=""
+                width="100%"></div>
+        <div class="item right" data-color="radial-gradient(#eeeeee,#87302f)"><img src="./img/小樱.png" alt=""
+                width="100%"></div>
+    </div>
+    <button id="toleft">＜</button>
+    <button id="toright">＞</button>
+    <script>
+        var items = document.querySelectorAll('.item')
+        var toleft = document.querySelector('#toleft')
+        var toright = document.querySelector('#toright')
+        items.forEach(function (item) {
+            item.addEventListener('click', auto)
+        })
+        toleft.addEventListener('click', toLeft)
+        toright.addEventListener('click', toRight)
+
+        var timer = setInterval(() => {
+            toRight()
+        }, 2000);
+        window.onmouseover = function () {
+            clearInterval(timer)
+        }
+        window.onmouseout = function () {
+            timer = setInterval(() => {
+                toRight()
+            }, 2000);
+        }
+
+        function auto() {
+            this.classList.remove('left', 'middle', 'right');
+            this.classList.add('middle');
+            document.body.style.background = this.dataset.color
+            let left = this.previousElementSibling || items[items.length - 1]
+            left.classList.remove('left', 'middle', 'right');
+            left.classList.add('left');
+            let right = this.nextElementSibling || items[0]
+            right.classList.remove('left', 'middle', 'right');
+            right.classList.add('right');
+        }
+        function toLeft() {
+            let left = document.querySelector('.middle')
+            left.classList.remove('left', 'middle', 'right');
+            left.classList.add('left');
+            let right = left.previousElementSibling || items[items.length - 1]
+            right.classList.remove('left', 'middle', 'right');
+            right.classList.add('right');
+            let middle = left.nextElementSibling || items[0]
+            middle.classList.remove('left', 'middle', 'right');
+            middle.classList.add('middle');
+            document.body.style.background = middle.dataset.color
+        }
+
+        function toRight() {
+            let right = document.querySelector('.middle')
+            right.classList.remove('left', 'middle', 'right');
+            right.classList.add('right');
+            let middle = right.previousElementSibling || items[items.length - 1]
+            middle.classList.remove('left', 'middle', 'right');
+            middle.classList.add('middle');
+            let left = right.nextElementSibling || items[0]
+            left.classList.remove('left', 'middle', 'right');
+            left.classList.add('left');
+            document.body.style.background = middle.dataset.color
+        }
+
+
+    </script>
+</body>
+
+</html>
